@@ -78,7 +78,7 @@
     <div v-else>
       <h3>Your Tasks</h3>
       <!-- This is a list of tasks -->
-      <div v-for="task in tasks" :key="task.id" :class="{'task': true, completed: task.done, [task.priority.toLowerCase()]: true}">
+      <div v-for="(task, index) in tasks" :key="task.id" :class="{'task': true, completed: task.done, [task.priority.toLowerCase()]: true}">
         <div>
           <!-- Is task done? -->
           <input type="checkbox" v-model="task.done">
@@ -86,7 +86,7 @@
           <span>{{task.description}}</span>
         </div>
         <!-- Removing a task -->
-        <button class="remove-button">✖</button>
+        <button @click="removeTask(index)" class="remove-button">✖</button>
       </div>
     </div>
   </div>
@@ -126,6 +126,10 @@
             }
         }
 
+        const removeTask = (index) => {
+            tasks.value.splice(index, 1)
+        }
+
         watch(newTask, (newValue, oldValue) => {
             console.log('New  value is $(newValue), old was  $(oldValue)')
         }, {imediate: true})
@@ -143,7 +147,8 @@
             newTaskInput,
             newTask,
             newPriority,
-            addTask                  
+            addTask     ,
+            removeTask             
         }
       },
     };
